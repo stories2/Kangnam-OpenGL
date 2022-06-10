@@ -10,6 +10,27 @@ using namespace std;
 
 int cnt = 0;
 
+void drawBorder() {
+
+	Vec position = Vec(-0.5, -0.5);
+	glLineWidth(1.0f);
+	glColor3f(1, 1, 1);
+	glBegin(GL_LINES);
+
+	glVertex3f(position.x, position.y, 0);
+	glVertex3f(position.x, 1 + position.y, 0);
+
+	glVertex3f(position.x, 1 + position.y, 0);
+	glVertex3f(1 + position.x, 1 + position.y, 0);
+
+	glVertex3f(1 + position.x, 1 + position.y, 0);
+	glVertex3f(1 + position.x, position.y, 0);
+
+	glVertex3f(1 + position.x, position.y, 0);
+	glVertex3f(position.x, position.y, 0);
+	glEnd();
+}
+
 void drawGrid() {
 	Vec position = Vec(-0.5, -0.5);
 	glLineWidth(1.0f);
@@ -104,7 +125,8 @@ void glDisplay(void) {
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	drawWater();
-	drawGrid();
+	//drawGrid();
+	drawBorder();
 	//drawCircle();
 
 	glColor3f(1.0f, 0.0f, 0.0f);
