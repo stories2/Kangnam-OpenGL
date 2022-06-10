@@ -115,7 +115,7 @@ void glDisplay(void) {
 	glVertex3f(-1.0f + delta, 0.5f, 0.0f);
 	glEnd();*/
 	cnt++;
-	if (cnt % 100 == 0) {
+	if (cnt % 10 == 0) {
 
 		simulationGrid.Update();
 	}
@@ -149,6 +149,11 @@ void Keyboard(unsigned char key, int x, int y) {
 	}
 }
 
+void MouseMotion(GLint x, GLint y)
+{
+	printf("%d, %d\n", x, y);
+}
+
 void main() {
 	simulationGrid = SimulationGrid();
 	//simulationGrid.Render();
@@ -160,5 +165,6 @@ void main() {
 	glutDisplayFunc(glDisplay);
 	glutIdleFunc(Idle);
 	glutKeyboardFunc(Keyboard);
+	glutMotionFunc(MouseMotion);
 	glutMainLoop();
 }

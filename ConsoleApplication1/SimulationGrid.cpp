@@ -8,7 +8,7 @@
 void SimulationGrid::Update() {
 	for (int i = 0; i < size; i++) {
 		for (int t = 0; t < size; t++) {
-			if (i == 0 && t == 2) {
+			/*if (i == 0 && t == 2) {
 				printf("debug");
 			}
 			if (i == 1 && t == 2) {
@@ -16,7 +16,7 @@ void SimulationGrid::Update() {
 			}
 			if (i == 2 && t == 2) {
 				printf("debug");
-			}
+			}*/
 			//grid[i][t].CalcEffectGrid(grid, size);
 			grid[i][t].CalcSandEffectGrid(grid, size);
 		}
