@@ -127,7 +127,7 @@ void glReshape(int w, int h) {
 	glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glFrustum(-1.0, 1.0, -1.0, 1.0, 1.5, 20.0);
+	glOrtho(-1.0, 1.0, -1.0, 1.0, 1.5, 20.0);
 	glMatrixMode(GL_MODELVIEW);
 	//gluOrtho2D(0.0, 100.0, 0.0, 100.0);
 }
@@ -149,9 +149,14 @@ void Keyboard(unsigned char key, int x, int y) {
 	}
 }
 
+Vec ConvertPosition(Vec pos) {
+	return Vec(pos.x / (WINDOW_SIZE / 2) - (VIEW_SIZE / 2), pos.y / (WINDOW_SIZE / 2) - (VIEW_SIZE / 2));
+}
+
 void MouseMotion(GLint x, GLint y)
 {
-	printf("%d, %d\n", x, y);
+	Vec pos = ConvertPosition(Vec(x, y));
+	printf("%d, %d -> %.1lf %.1lf\n", x, y, pos.x, pos.y);
 }
 
 void main() {
@@ -159,7 +164,7 @@ void main() {
 	//simulationGrid.Render();
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 	glutInitWindowPosition(50, 100);
-	glutInitWindowSize(400, 400);
+	glutInitWindowSize(WINDOW_SIZE, WINDOW_SIZE);
 	glutCreateWindow("1");
 	//glutReshapeFunc(glReshape);
 	glutDisplayFunc(glDisplay);
