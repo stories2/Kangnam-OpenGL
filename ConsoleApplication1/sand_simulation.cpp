@@ -8,9 +8,11 @@ SimulationGrid simulationGrid;
 
 using namespace std;
 
+int cnt = 0;
+
 void drawGrid() {
 	Vec position = Vec(-0.5, -0.5);
-	glLineWidth(4.0f);
+	glLineWidth(1.0f);
 	glColor3f(1, 1, 1);
 	glBegin(GL_LINES);
 	
@@ -44,11 +46,11 @@ void drawGrid() {
 		}
 	}
 	glVertex3f(0, 0, 0);
-	glPointSize(1.0);
-	glLineWidth(1.0f);*/
+	glPointSize(1.0);*/
+	glLineWidth(1.0f);
 
 
-	glPointSize(5.0f);
+	glPointSize(1.0f);
 	glColor3f(1.0f, 0.0f, 0.0f);
 	glBegin(GL_POINTS);
 	/*for (double angle = 0.0; angle <= PI * 2.0; angle += PI / 30.0) {
@@ -68,6 +70,23 @@ void drawGrid() {
 	glPointSize(1.0f);
 }
 
+void drawWater() {
+	Vec position = Vec(-0.5, -0.5);
+	for (float i = 0; i < SIZE; i++) {
+		for (float t = 0; t < SIZE; t++) {
+			float density = simulationGrid.grid[(int)i][(int)t].density;
+			glColor3f(density, density, density);
+			glBegin(GL_POLYGON);
+			glVertex3f(t / SIZE + position.x, i / SIZE + position.y, 0);
+			glVertex3f(t / SIZE + position.x, (i + 1.0f) / SIZE + position.y, 0);
+			glVertex3f((t + 1.0f) / SIZE + position.x, (i + 1.0f) / SIZE + position.y, 0);
+			glVertex3f((t + 1.0f) / SIZE + position.x, i / SIZE + position.y, 0);
+			glEnd();
+		}
+	}
+	glColor3f(1, 1, 1);
+}
+
 void drawCircle() {
 	glPointSize(5.0f);
 	glColor3f(1.0f, 0.0f, 0.0f);
@@ -84,6 +103,7 @@ void glDisplay(void) {
 	//glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 	glClear(GL_COLOR_BUFFER_BIT);
+	drawWater();
 	drawGrid();
 	//drawCircle();
 
@@ -94,7 +114,11 @@ void glDisplay(void) {
 	glVertex3f(0.0f + delta, 0.5f, 0.0f);
 	glVertex3f(-1.0f + delta, 0.5f, 0.0f);
 	glEnd();*/
-	simulationGrid.Update();
+	cnt++;
+	if (cnt % 100 == 0) {
+
+		simulationGrid.Update();
+	}
 	glutSwapBuffers();
 }
 
@@ -120,6 +144,8 @@ void Keyboard(unsigned char key, int x, int y) {
 	case 27:
 		exit(0);
 		break;
+	case '1':
+		simulationGrid.grid[50][25].density = 1;
 	}
 }
 

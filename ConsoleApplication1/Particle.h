@@ -24,6 +24,8 @@ public:
 	Vec Degree2Grid(float degree);
 
 	void CalcEffectGrid(Particle grid[][SIZE], int size);
+	void CalcSandEffectGrid(Particle grid[][SIZE], int size);
 
 	float SpreadEffectToGrid(Particle grid[][SIZE], int size, Vec direction, float amount);
+	float SandMovement(Particle grid[][SIZE], int size, Vec direction, float amount);
 };

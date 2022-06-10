@@ -27,9 +27,6 @@
     <ClCompile Include="glutMouseFunc.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="water_simulation.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Vec.h">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -43,6 +40,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="SimulationGrid.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="sand_simulation.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

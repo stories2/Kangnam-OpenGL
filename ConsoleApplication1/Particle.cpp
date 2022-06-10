@@ -75,6 +75,24 @@ void Particle::CalcEffectGrid(Particle grid[][SIZE], int size) {
 		density = density_ccw + density_cw + (originDensity - density * viscosity * 2);
 	}
 }
+void Particle::CalcSandEffectGrid(Particle grid[][SIZE], int size) {
+
+	if (density <= 0) {
+		return;
+	}
+	float originDensity = density;
+
+	float density_center = originDensity;
+	density_center = SpreadEffectToGrid(grid, size, Vec(0, -1), density_center);
+	
+	float density_left = density_center * viscosity;
+	density_left = SpreadEffectToGrid(grid, size, Vec(-1, -1), density_left);
+
+	float density_right = density_center * viscosity;
+	density_right = SpreadEffectToGrid(grid, size, Vec(1, -1), density_right);
+
+	density = density_left + density_right + (density_center * viscosity * 2);
+}
 
 float Particle::SpreadEffectToGrid(Particle grid[][SIZE], int size, Vec direction, float amount) {
 	if (direction.x + position.x < 0 || direction.x + position.x >= size
@@ -86,6 +104,22 @@ float Particle::SpreadEffectToGrid(Particle grid[][SIZE], int size, Vec directio
 	grid[(int)(position.y + direction.y)][(int)(position.x + direction.x)].direction = (newDir + direction) / 2;
 
 	grid[(int)(position.y + direction.y)][(int)(position.x + direction.x)].density += amount;
+	if (grid[(int)(position.y + direction.y)][(int)(position.x + direction.x)].density > 1) {
+		float overflowAmount = grid[(int)(position.y + direction.y)][(int)(position.x + direction.x)].density - 1;
+		grid[(int)(position.y + direction.y)][(int)(position.x + direction.x)].density = 1;
+		return overflowAmount;
+	}
+	return 0;
+}
+
+float Particle::SandMovement(Particle grid[][SIZE], int size, Vec direction, float amount) {
+	if (direction.x + position.x < 0 || direction.x + position.x >= size
+		|| direction.y + position.y < 0 || direction.y + position.y >= size) {
+		return amount;
+	}
+	
+	grid[(int)(position.y + direction.y)][(int)(position.x + direction.x)].density += amount;
+
 	if (grid[(int)(position.y + direction.y)][(int)(position.x + direction.x)].density > 1) {
 		float overflowAmount = grid[(int)(position.y + direction.y)][(int)(position.x + direction.x)].density - 1;
 		grid[(int)(position.y + direction.y)][(int)(position.x + direction.x)].density = 1;
