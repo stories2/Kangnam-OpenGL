@@ -153,10 +153,27 @@ Vec ConvertPosition(Vec pos) {
 	return Vec(pos.x / (WINDOW_SIZE / 2) - (VIEW_SIZE / 2), pos.y / (WINDOW_SIZE / 2) - (VIEW_SIZE / 2));
 }
 
+Vec ConvertViewPos2GridPos(Vec pos) {
+	if (pos.x < -0.5 || pos.x > 0.5 || pos.y < -0.5 || pos.y > 0.5) {
+		return Vec(0x7fffffff, 0x7fffffff);
+	}
+	Vec tmp = Vec((pos.x + 0.5) * SIZE, (pos.y + 0.5) * SIZE);
+	return tmp;
+}
+
 void MouseMotion(GLint x, GLint y)
 {
 	Vec pos = ConvertPosition(Vec(x, y));
 	printf("%d, %d -> %.1lf %.1lf\n", x, y, pos.x, pos.y);
+	Vec gridPos = ConvertViewPos2GridPos(pos);
+
+	int gridX = (int)gridPos.x;
+	int gridY = SIZE - (int)gridPos.y;
+	printf("grid pos: %d, %d\n", gridX, gridY);
+
+	if (0 <= gridX && gridX < SIZE && 0 <= gridY && gridY < SIZE) {
+		simulationGrid.grid[gridY][gridX].density = 1;
+	}
 }
 
 void main() {
